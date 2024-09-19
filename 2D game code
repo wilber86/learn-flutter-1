@@ -1,0 +1,69 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyGame());
+}
+
+class MyGame extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My Game',
+      home: GameScreen(),
+    );
+  }
+}
+
+class GameScreen extends StatefulWidget {
+  @override
+  _GameScreenState createState() => _GameScreenState();
+}
+
+class _GameScreenState extends State<GameScreen> {
+  Rect player = Rect.fromLTWH(50, 50, 50, 50);
+  Rect enemy = Rect.fromLTWH(200, 200, 50, 50);
+  Rect bullet = Rect.fromLTWH(0, 0, 10, 10);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onPanUpdate: (details) {
+        setState(() {
+          player = player.translate(details.delta.dx, details.delta.dy);
+        });
+      },
+      child: Stack(
+        children: [
+          Positioned(
+            top: player.top,
+            left: player.left,
+            child: Container(
+              width: player.width,
+              height: player.height,
+              color: Colors.blue,
+            ),
+          ),
+          Positioned(
+            top: enemy.top,
+            left: enemy.left,
+            child: Container(
+              width: enemy.width,
+              height: enemy.height,
+              color: Colors.red,
+            ),
+          ),
+          Positioned(
+            top: bullet.top,
+            left: bullet.left,
+            child: Container(
+              width: bullet.width,
+              height: bullet.height,
+              color: Colors.yellow,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
